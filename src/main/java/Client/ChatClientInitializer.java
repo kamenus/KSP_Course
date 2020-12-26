@@ -1,3 +1,5 @@
+package Client;
+
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -6,16 +8,15 @@ import io.netty.handler.codec.Delimiters;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 
-public class ChatServerInitializer extends ChannelInitializer<SocketChannel> {
+public class ChatClientInitializer extends ChannelInitializer<SocketChannel> {
 
 	@Override
-	protected void initChannel(SocketChannel ch) throws Exception {
+	protected void initChannel(SocketChannel arg0) throws Exception {
+		ChannelPipeline pipeline = arg0.pipeline();
 		
-		ChannelPipeline pipeline = ch.pipeline();
 		pipeline.addLast("framer", new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
 		pipeline.addLast("decoder", new StringDecoder());
 		pipeline.addLast("encoder", new StringEncoder());
-		pipeline.addLast("handler", new ChatServerhandler());
-		
+		pipeline.addLast("handler", new ChatClientHandler());
 	}
 }
